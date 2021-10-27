@@ -86,6 +86,9 @@ class CustomerAdmin(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ['first_name__istartswith', 'last_name__istartswith']
 
+    #Eager Load when Listing
+    list_select_related = ['user']
+
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
