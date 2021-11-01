@@ -135,7 +135,15 @@ class CustomerViewSet(ModelViewSet):
 class OrderViewSet(ModelViewSet):
     # queryset = Order.objects.prefetch_related('items__product')
     # serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+
+    http_method_names = ['get', 'patch', 'delete', 'head', 'options', 'post']
+
+    def get_permissions(self):
+        if self.request.method in ['PATCH', 'DELETE']:
+            return [IsAdminUser()]
+
+        return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
         serializer = CreateOrderSerializer(
